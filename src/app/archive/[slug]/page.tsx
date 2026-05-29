@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageScaffold } from "@/components/museum/PageScaffold";
 import { getDarkPattern, darkPatterns } from "@/data/darkPatterns";
-import { InfiniteScrollArchiveDetail } from "@/sections/archive/InfiniteScrollArchiveDetail";
 import { roomRoute } from "@/lib/routes";
 import { CyberButton } from "@/components/ui/CyberButton";
 
@@ -36,10 +35,6 @@ export default async function ExhibitDetailPage({ params }: ExhibitPageProps) {
 
   if (!pattern) {
     notFound();
-  }
-
-  if (slug === "infinite-scroll") {
-    return <InfiniteScrollArchiveDetail pattern={pattern} />;
   }
 
   return (

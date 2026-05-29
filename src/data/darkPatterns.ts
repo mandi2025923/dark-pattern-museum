@@ -4,20 +4,6 @@ export type DarkPatternCategory = DarkPattern;
 
 export const darkPatterns: DarkPattern[] = [
   {
-    id: "infinite-scroll",
-    slug: "infinite-scroll",
-    title: "Infinite Scroll",
-    titleEn: "Infinite Scroll",
-    description:
-      "A never-ending stream of content that removes your natural stopping point.",
-    criticalTheme: "Attention extraction through a feed with no natural stopping point.",
-    realWorldInspiredExample: "Social feeds and short-video timelines that keep loading new material.",
-    emotionalEffect: "Loss of time, blurred intention, low-level compulsion.",
-    simulationType: "infinite-scroll",
-    status: "planned",
-    threatLevel: 4,
-  },
-  {
     id: "confirmshaming",
     slug: "confirmshaming",
     title: "Confirm Shaming",
@@ -43,6 +29,21 @@ export const darkPatterns: DarkPattern[] = [
     simulationType: "fake-urgency",
     status: "planned",
     threatLevel: 5,
+  },
+  {
+    id: "motel-dark-pattern",
+    slug: "motel-dark-pattern",
+    title: "Motel Dark Pattern",
+    titleEn: "Motel Dark Pattern",
+    description:
+      "Easy to enter, nearly impossible to leave — subscriptions and memberships trap users behind layered exit friction.",
+    criticalTheme: "Exit is engineered to be harder than entry.",
+    realWorldInspiredExample:
+      "Services you can subscribe to in one click but must call, chat, or complete surveys to cancel.",
+    emotionalEffect: "Frustration, fatigue, resignation, learned helplessness.",
+    simulationType: "motel-dark-pattern",
+    status: "planned",
+    threatLevel: 4,
   },
   {
     id: "forced-continuity",

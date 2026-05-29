@@ -16,6 +16,7 @@ export function isDedicatedSimulationRoom(slug: string): slug is DedicatedSimula
 export const ARCHIVE_INTERACTIVE_SIMULATIONS = [
   "confirmshaming",
   "fake-urgency",
+  "motel-dark-pattern",
   "forced-continuity",
 ] as const satisfies readonly SimulationType[];
 

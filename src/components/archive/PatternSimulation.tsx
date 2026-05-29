@@ -7,6 +7,7 @@ import { CONFIRM_SHAMING_COPY } from "@/components/simulations/ConfirmShamingMod
 import { FakeUrgencyModal } from "@/components/simulations/FakeUrgencyModal";
 import { FAKE_URGENCY_COPY } from "@/components/simulations/FakeUrgencyModal";
 import { ForcedContinuityModal } from "@/components/simulations/ForcedContinuityModal";
+import { MotelExhibit, MOTEL_EXHIBIT_COPY } from "@/components/simulations/MotelExhibit";
 import type { SimulationModalLayout } from "@/components/simulations/ConfirmShamingModal";
 import type { SimulationType } from "@/types/museum";
 
@@ -29,8 +30,12 @@ export function PatternSimulation({
   layout = "overlay",
   onExplanation,
 }: PatternSimulationProps) {
-  if (type === "infinite-scroll") {
-    return <InfiniteScrollPreview />;
+  if (type === "motel-dark-pattern") {
+    return variant === "interactive" ? (
+      <MotelInteractivePreview layout={layout} onExplanation={onExplanation} />
+    ) : (
+      <MotelStaticPreview />
+    );
   }
 
   if (type === "forced-continuity") {
@@ -92,22 +97,33 @@ function ForcedContinuityInteractivePreview({
   );
 }
 
-function InfiniteScrollPreview() {
+function MotelInteractivePreview({
+  layout,
+  onExplanation,
+}: {
+  layout: SimulationModalLayout;
+  onExplanation?: (node: ReactNode | null) => void;
+}) {
   return (
-    <div className="space-y-2">
-      {[0, 1, 2, 3].map((item) => (
-        <motion.div
-          key={item}
-          className="h-7 border border-museum-border bg-museum-void/60"
-          animate={{ x: [0, item % 2 ? 6 : -4, 0], opacity: [0.35, 0.8, 0.35] }}
-          transition={{ duration: 2.5, repeat: Infinity, delay: item * 0.18 }}
-        />
-      ))}
-      <motion.div
-        className="mx-auto h-1 w-16 bg-museum-neon/70"
-        animate={{ scaleX: [0.2, 1, 0.2] }}
-        transition={{ duration: 1.4, repeat: Infinity }}
-      />
+    <MotelExhibit
+      layout={layout}
+      minHeightClass={layout === "embedded" || layout === "split" ? "min-h-0" : undefined}
+      onExplanation={onExplanation}
+    />
+  );
+}
+
+function MotelStaticPreview() {
+  const { enterLabel, exitLabel } = MOTEL_EXHIBIT_COPY;
+
+  return (
+    <div className="pointer-events-none space-y-3" aria-hidden>
+      <div className="border border-museum-neon/40 bg-museum-neon/10 p-3 text-center font-mono text-[9px] uppercase leading-snug tracking-[0.1em] text-museum-neon sm:text-[10px]">
+        {enterLabel}
+      </div>
+      <div className="border border-museum-border bg-museum-void/70 p-3 text-center font-mono text-[9px] uppercase leading-snug tracking-[0.06em] text-museum-muted sm:text-[10px]">
+        {exitLabel}
+      </div>
     </div>
   );
 }

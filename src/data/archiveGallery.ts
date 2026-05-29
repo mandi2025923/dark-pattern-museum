@@ -6,7 +6,7 @@ import type { SimulationType } from "@/types/museum";
 export const ARCHIVE_GALLERY_SLUGS = [
   "confirmshaming",
   "fake-urgency",
-  "infinite-scroll",
+  "motel-dark-pattern",
   "forced-continuity",
 ] as const satisfies readonly SimulationType[];
 
@@ -15,7 +15,7 @@ export type ArchiveGallerySlug = (typeof ARCHIVE_GALLERY_SLUGS)[number];
 const galleryLabels: Record<ArchiveGallerySlug, string> = {
   confirmshaming: "Confirm Shaming",
   "fake-urgency": "Fake Urgency",
-  "infinite-scroll": "Infinite Scroll",
+  "motel-dark-pattern": "Motel Dark Pattern",
   "forced-continuity": "Forced Continuity",
 };
 

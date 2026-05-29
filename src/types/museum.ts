@@ -1,7 +1,7 @@
 export type PatternStatus = "available" | "planned";
 
 export type SimulationType =
-  | "infinite-scroll"
+  | "motel-dark-pattern"
   | "confirmshaming"
   | "fake-urgency"
   | "forced-continuity"
