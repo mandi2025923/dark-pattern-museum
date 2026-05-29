@@ -2,12 +2,20 @@ import { getDarkPattern } from "@/data/darkPatterns";
 import type { DarkPattern } from "@/types/museum";
 import type { SimulationType } from "@/types/museum";
 
-/** Fixed vertical gallery on `/archive` — forced continuity only. */
-export const ARCHIVE_GALLERY_SLUGS = ["forced-continuity"] as const satisfies readonly SimulationType[];
+/** Fixed vertical gallery on `/archive` — four dossiers, short English gallery tags. */
+export const ARCHIVE_GALLERY_SLUGS = [
+  "confirmshaming",
+  "fake-urgency",
+  "infinite-scroll",
+  "forced-continuity",
+] as const satisfies readonly SimulationType[];
 
 export type ArchiveGallerySlug = (typeof ARCHIVE_GALLERY_SLUGS)[number];
 
 const galleryLabels: Record<ArchiveGallerySlug, string> = {
+  confirmshaming: "Confirm Shaming",
+  "fake-urgency": "Fake Urgency",
+  "infinite-scroll": "Infinite Scroll",
   "forced-continuity": "Forced Continuity",
 };
 
@@ -28,11 +36,4 @@ export function getArchiveGalleryRecords(): ArchiveGalleryRecord[] {
       galleryIndex: index + 1,
     };
   });
-}
-
-/** Patterns cycled inside the infinite-scroll feed (deduped by id). */
-export function getArchiveFeedPatterns(): DarkPattern[] {
-  return ARCHIVE_GALLERY_SLUGS.map((slug) => getDarkPattern(slug)).filter(
-    (p): p is DarkPattern => Boolean(p),
-  );
 }

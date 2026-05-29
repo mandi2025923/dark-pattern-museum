@@ -118,7 +118,9 @@ export function ArchiveExhibitModal({ pattern, onClose }: ArchiveExhibitModalPro
                         href={archiveRoute(pattern.slug)}
                         className="inline-flex w-full items-center justify-center border border-museum-border px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.18em] text-museum-muted transition-colors hover:border-museum-neon hover:text-museum-neon"
                       >
-                        Read full record →
+                        {pattern.simulationType === "infinite-scroll"
+                          ? "Open infinite scroll exhibit →"
+                          : "Read full record →"}
                       </Link>
                     </div>
                   </ArchiveDossierMeta>

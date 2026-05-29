@@ -4,11 +4,25 @@ import { useMemo, useState } from "react";
 import { ArchiveExhibitModal } from "@/components/archive/ArchiveExhibitModal";
 import { ArchiveRecordCard } from "@/components/archive/ArchiveRecordCard";
 import { SectionLabel } from "@/components/ui/SectionLabel";
-import { getArchiveGalleryRecords, type ArchiveGalleryRecord } from "@/data/archiveGallery";
+import type { ArchiveGalleryRecord } from "@/data/archiveGallery";
 
-export function ArchiveGallery() {
-  const records = useMemo(() => getArchiveGalleryRecords(), []);
+type ArchiveGalleryProps = {
+  /** From getArchiveGalleryRecords() on the server page — single source for gallery cards. */
+  records: ArchiveGalleryRecord[];
+};
+
+export function ArchiveGallery({ records }: ArchiveGalleryProps) {
   const [activePattern, setActivePattern] = useState<ArchiveGalleryRecord | null>(null);
+
+  /** One dossier per id — no feed-derived duplicate rows on the index. */
+  const galleryRecords = useMemo(() => {
+    const seen = new Set<string>();
+    return records.filter((record) => {
+      if (seen.has(record.id)) return false;
+      seen.add(record.id);
+      return true;
+    });
+  }, [records]);
 
   return (
     <section className="relative overflow-x-hidden px-4 pb-20 pt-8 md:px-6">
@@ -25,7 +39,7 @@ export function ArchiveGallery() {
         </div>
 
         <ul className="mt-10 flex list-none flex-col gap-10 p-0 md:gap-14">
-          {records.map((pattern) => (
+          {galleryRecords.map((pattern) => (
             <li key={pattern.id} className="list-none">
               <ArchiveRecordCard
                 pattern={pattern}

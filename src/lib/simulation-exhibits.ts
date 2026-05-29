@@ -17,7 +17,6 @@ export const ARCHIVE_INTERACTIVE_SIMULATIONS = [
   "confirmshaming",
   "fake-urgency",
   "forced-continuity",
-  "infinite-scroll",
 ] as const satisfies readonly SimulationType[];
 
 export function isInteractiveDossierSimulation(type: SimulationType): boolean {

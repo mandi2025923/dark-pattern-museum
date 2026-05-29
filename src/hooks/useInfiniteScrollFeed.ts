@@ -7,7 +7,7 @@ import {
   useState,
   type UIEvent,
 } from "react";
-import { getArchiveFeedPatterns } from "@/data/archiveGallery";
+import { createInfiniteScrollFeedBatch } from "@/data/infiniteScrollFeed";
 
 export type InfiniteFeedItem = {
   id: string;
@@ -15,19 +15,13 @@ export type InfiniteFeedItem = {
   description: string;
 };
 
-const BATCH_SIZE = 4;
 const SCROLL_DEBOUNCE_MS = 180;
 
 let batchCounter = 0;
 
 function createBatch(): InfiniteFeedItem[] {
   const batchIndex = batchCounter++;
-  const pool = getArchiveFeedPatterns();
-  return pool.slice(0, BATCH_SIZE).map((pattern, index) => ({
-    id: `feed-${batchIndex}-${pattern.id}-${index}`,
-    title: pattern.title,
-    description: pattern.description,
-  }));
+  return createInfiniteScrollFeedBatch(batchIndex);
 }
 
 function dedupeById(

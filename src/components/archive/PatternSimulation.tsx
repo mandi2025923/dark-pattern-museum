@@ -7,7 +7,6 @@ import { CONFIRM_SHAMING_COPY } from "@/components/simulations/ConfirmShamingMod
 import { FakeUrgencyModal } from "@/components/simulations/FakeUrgencyModal";
 import { FAKE_URGENCY_COPY } from "@/components/simulations/FakeUrgencyModal";
 import { ForcedContinuityModal } from "@/components/simulations/ForcedContinuityModal";
-import { InfiniteScrollExhibit } from "@/components/simulations/InfiniteScrollExhibit";
 import type { SimulationModalLayout } from "@/components/simulations/ConfirmShamingModal";
 import type { SimulationType } from "@/types/museum";
 
@@ -31,11 +30,7 @@ export function PatternSimulation({
   onExplanation,
 }: PatternSimulationProps) {
   if (type === "infinite-scroll") {
-    return variant === "interactive" ? (
-      <InfiniteScrollInteractivePreview layout={layout} onExplanation={onExplanation} />
-    ) : (
-      <InfiniteScrollPreview />
-    );
+    return <InfiniteScrollPreview />;
   }
 
   if (type === "forced-continuity") {
@@ -94,18 +89,6 @@ function ForcedContinuityInteractivePreview({
       minHeightClass={layout === "embedded" || layout === "split" ? "min-h-0" : undefined}
       onExplanation={onExplanation}
     />
-  );
-}
-
-function InfiniteScrollInteractivePreview({
-  layout,
-  onExplanation,
-}: {
-  layout: SimulationModalLayout;
-  onExplanation?: (node: ReactNode | null) => void;
-}) {
-  return (
-    <InfiniteScrollExhibit layout={layout} onExplanation={onExplanation} />
   );
 }
 
