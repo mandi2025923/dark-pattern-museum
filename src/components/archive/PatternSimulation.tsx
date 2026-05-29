@@ -1,24 +1,65 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { motion } from "framer-motion";
 import { ConfirmShamingModal } from "@/components/simulations/ConfirmShamingModal";
+import { CONFIRM_SHAMING_COPY } from "@/components/simulations/ConfirmShamingModal";
+import { FakeUrgencyModal } from "@/components/simulations/FakeUrgencyModal";
+import { FAKE_URGENCY_COPY } from "@/components/simulations/FakeUrgencyModal";
+import { ForcedContinuityModal } from "@/components/simulations/ForcedContinuityModal";
+import { InfiniteScrollExhibit } from "@/components/simulations/InfiniteScrollExhibit";
+import type { SimulationModalLayout } from "@/components/simulations/ConfirmShamingModal";
 import type { SimulationType } from "@/types/museum";
 
 type PatternSimulationProps = {
   type: SimulationType;
+  /**
+   * preview — static miniature (archive cards)
+   * interactive — full trap UI (expanded dossier for dedicated exhibits)
+   */
+  variant?: "preview" | "interactive";
+  /** embedded | split = inline in archive modal; split sends explanation to footer */
+  layout?: SimulationModalLayout;
+  /** Receives critical explanation for split archive modal bottom bar */
+  onExplanation?: (node: ReactNode | null) => void;
 };
 
-export function PatternSimulation({ type }: PatternSimulationProps) {
+export function PatternSimulation({
+  type,
+  variant = "preview",
+  layout = "overlay",
+  onExplanation,
+}: PatternSimulationProps) {
   if (type === "infinite-scroll") {
-    return <InfiniteScrollPreview />;
+    return variant === "interactive" ? (
+      <InfiniteScrollInteractivePreview layout={layout} onExplanation={onExplanation} />
+    ) : (
+      <InfiniteScrollPreview />
+    );
+  }
+
+  if (type === "forced-continuity") {
+    return variant === "interactive" ? (
+      <ForcedContinuityInteractivePreview layout={layout} onExplanation={onExplanation} />
+    ) : (
+      <FrictionFlowPreview />
+    );
   }
 
   if (type === "confirmshaming") {
-    return <ConfirmshamingPreview />;
+    return variant === "interactive" ? (
+      <ConfirmshamingInteractivePreview layout={layout} onExplanation={onExplanation} />
+    ) : (
+      <ConfirmshamingStaticPreview />
+    );
   }
 
   if (type === "fake-urgency") {
-    return <FakeUrgencyPreview />;
+    return variant === "interactive" ? (
+      <FakeUrgencyInteractivePreview layout={layout} onExplanation={onExplanation} />
+    ) : (
+      <FakeUrgencyStaticPreview />
+    );
   }
 
   if (type === "notification-addiction") {
@@ -38,6 +79,34 @@ export function PatternSimulation({ type }: PatternSimulationProps) {
   }
 
   return <FrictionFlowPreview />;
+}
+
+function ForcedContinuityInteractivePreview({
+  layout,
+  onExplanation,
+}: {
+  layout: SimulationModalLayout;
+  onExplanation?: (node: ReactNode | null) => void;
+}) {
+  return (
+    <ForcedContinuityModal
+      layout={layout}
+      minHeightClass={layout === "embedded" || layout === "split" ? "min-h-0" : undefined}
+      onExplanation={onExplanation}
+    />
+  );
+}
+
+function InfiniteScrollInteractivePreview({
+  layout,
+  onExplanation,
+}: {
+  layout: SimulationModalLayout;
+  onExplanation?: (node: ReactNode | null) => void;
+}) {
+  return (
+    <InfiniteScrollExhibit layout={layout} onExplanation={onExplanation} />
+  );
 }
 
 function InfiniteScrollPreview() {
@@ -60,25 +129,67 @@ function InfiniteScrollPreview() {
   );
 }
 
-/** Full confirmshaming trap — interactive modal + post-choice explanation. */
-function ConfirmshamingPreview() {
-  return <ConfirmShamingModal />;
-}
+/** Archive card — non-interactive visual only; navigation opens the simulation room. */
+function ConfirmshamingStaticPreview() {
+  const { acceptLabel, declineLabel } = CONFIRM_SHAMING_COPY;
 
-function FakeUrgencyPreview() {
   return (
-    <div className="grid gap-3">
-      <motion.div
-        className="border border-museum-neon/50 bg-museum-neon/10 p-4 text-center font-display text-3xl text-museum-neon"
-        animate={{ opacity: [1, 0.55, 1], scale: [1, 0.98, 1] }}
-        transition={{ duration: 1, repeat: Infinity }}
-      >
-        00:47
-      </motion.div>
-      <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-museum-warning">
-        3 visitors are looking now
+    <div className="pointer-events-none space-y-3" aria-hidden>
+      <div className="border border-museum-neon/40 bg-museum-neon/10 p-3 text-center font-mono text-[9px] uppercase leading-snug tracking-[0.1em] text-museum-neon sm:text-[10px]">
+        {acceptLabel}
+      </div>
+      <div className="border border-museum-border bg-museum-void/70 p-3 text-center font-mono text-[9px] uppercase leading-snug tracking-[0.06em] text-museum-muted sm:text-[10px]">
+        {declineLabel}
       </div>
     </div>
+  );
+}
+
+function ConfirmshamingInteractivePreview({
+  layout,
+  onExplanation,
+}: {
+  layout: SimulationModalLayout;
+  onExplanation?: (node: ReactNode | null) => void;
+}) {
+  return (
+    <ConfirmShamingModal
+      layout={layout}
+      minHeightClass={layout === "embedded" || layout === "split" ? "min-h-0" : undefined}
+      onExplanation={onExplanation}
+    />
+  );
+}
+
+/** Archive card — static countdown preview; room link handles navigation. */
+function FakeUrgencyStaticPreview() {
+  const { viewersLabel } = FAKE_URGENCY_COPY;
+
+  return (
+    <div className="pointer-events-none grid gap-3" aria-hidden>
+      <div className="border border-museum-neon/50 bg-museum-neon/10 p-4 text-center font-display text-3xl text-museum-neon">
+        00:47
+      </div>
+      <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-museum-warning">
+        {viewersLabel}
+      </div>
+    </div>
+  );
+}
+
+function FakeUrgencyInteractivePreview({
+  layout,
+  onExplanation,
+}: {
+  layout: SimulationModalLayout;
+  onExplanation?: (node: ReactNode | null) => void;
+}) {
+  return (
+    <FakeUrgencyModal
+      layout={layout}
+      minHeightClass={layout === "embedded" || layout === "split" ? "min-h-0" : undefined}
+      onExplanation={onExplanation}
+    />
   );
 }
 

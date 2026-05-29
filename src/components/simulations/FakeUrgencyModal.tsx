@@ -9,93 +9,107 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 // COPY — edit labels here without touching layout or animation logic
 // ---------------------------------------------------------------------------
 
-/** Pressure copy shown while the modal is open (confrontational / polarised framing). */
-export const CONFIRM_SHAMING_COPY = {
-  badge: "Limited offer · Act now",
-  title: "Unlock Your Peak Productivity",
+export const FAKE_URGENCY_COPY = {
+  badge: "Flash sale · Ending soon",
+  title: "Your reserved price expires in",
   subtitle:
-    "Join 12,847 professionals who upgraded their focus this week. Cancel anytime* — *terms buried on page 47.",
-  /** Compliant subscribe — visually dominant CTA */
-  acceptLabel: "Yes, I Want To Become More Productive",
-  /** Refuse subscribe — confirmshaming decline copy */
-  declineLabel: "No, I Prefer Wasting My Life",
-  /** Shown on hover/focus of decline button for extra pressure */
-  declineHoverHint: "Are you sure you want to stay unproductive?",
-  /** Shown while decline button is briefly disabled (intentional friction) */
-  declineLoadingHint: "Processing your choice…",
+    "14 people are viewing this offer right now. Only 2 units remain at this rate.",
+  stockLabel: "Stock pressure",
+  viewersLabel: "14 viewing now",
+  rushLabel: "Claim offer before timer ends",
+  waitLabel: "I'll wait and pay full price later",
+  waitHoverHint: "This rate may disappear if you leave the page",
+  timerResetHint: "Offer extended — hurry!",
 } as const;
 
-/** Critical explanation shown after either button is pressed. */
-export const CONFIRM_SHAMING_EXPLANATION = {
-  sectionLabel: "Exhibit explanation · Confirmshaming",
-  acceptOpener:
-    "You chose the flattering option. The interface rewarded you for saying yes to a story about who you want to be.",
-  declineOpener:
-    "You chose the insulting option. Even refusal was scripted to make you feel small.",
+export const FAKE_URGENCY_EXPLANATION = {
+  sectionLabel: "Exhibit explanation · Fake urgency",
+  rushOpener:
+    "You rushed to claim the offer. The countdown pushed you to decide before you could evaluate the deal.",
+  waitOpener:
+    "You resisted the timer — but the interface still framed patience as financial loss.",
   bodyLead:
-    " rewrites the “No” button so declining feels like admitting failure — not making a neutral choice. The yes label promises identity (“productive”); the no label attacks character (“wasting my life”).",
+    " uses artificial scarcity — countdowns, low-stock warnings, and “only today” language — to compress your decision window.",
   bodyFollowUpBefore:
-    "Real products use this on newsletters, free trials, and cookie banners. The goal is not clarity — it is ",
-  bodyFollowUpHighlight: "emotional pressure",
-  bodyFollowUpAfter: " before you can think.",
+    "The timer is often ",
+  bodyFollowUpHighlight: "theatrical",
+  bodyFollowUpAfter:
+    ": it resets, was never real, or applies pressure without changing the underlying price.",
   museumNote:
-    "Museum note: No subscription was created. No data was stored. Both buttons were part of the same manipulative script.",
+    "Museum note: No purchase was made. No inventory changed. The countdown was a local simulation only.",
 } as const;
 
 // ---------------------------------------------------------------------------
-// Types & timing — tweak delays without hunting through JSX
+// Types & timing
 // ---------------------------------------------------------------------------
 
-/** Tracks which trap the visitor walked into (for tailored explanation opener). */
-type ShamingChoice = "accept" | "decline" | null;
+type UrgencyChoice = "rush" | "wait" | null;
 
-/** Milliseconds before the decline button becomes clickable (educational friction). */
-const DECLINE_ENABLE_DELAY_MS = 1200;
-
-/** Modal exit animation duration — explanation waits for this to finish. */
+const COUNTDOWN_START_SECONDS = 47;
+const TICK_MS = 1000;
+const WAIT_ENABLE_DELAY_MS = 900;
 const MODAL_EXIT_DURATION_S = 0.38;
 
 export type SimulationModalLayout = "overlay" | "embedded" | "split";
 
-type ConfirmShamingModalProps = {
-  /** When false, nothing renders (parent can control visibility). */
+type FakeUrgencyModalProps = {
   open?: boolean;
-  /** Tailwind min-height class for the simulation viewport (room vs archive embed). */
   minHeightClass?: string;
-  /** overlay = room; embedded = inline column; split = archive modal right column + footer explanation */
   layout?: SimulationModalLayout;
-  /** When layout is split, explanation renders via this callback into the modal footer bar */
   onExplanation?: (node: ReactNode | null) => void;
 };
 
+function formatCountdown(totalSeconds: number): string {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+}
+
 /**
- * Confirmshaming exhibit: fake subscription popup with polarised accept/decline copy.
- * Educational only — no subscription, no data collection.
+ * Fake urgency exhibit: theatrical countdown + scarcity modal.
+ * Educational only — no transaction, no real inventory.
  */
-export function ConfirmShamingModal({
+export function FakeUrgencyModal({
   open = true,
   minHeightClass = "min-h-[360px]",
   layout = "overlay",
   onExplanation,
-}: ConfirmShamingModalProps) {
+}: FakeUrgencyModalProps) {
   const embedded = layout === "embedded" || layout === "split";
   const footerExplanation = layout === "split" && Boolean(onExplanation);
   const reducedMotion = useReducedMotion();
-  const [choice, setChoice] = useState<ShamingChoice>(null);
-  const [declineReady, setDeclineReady] = useState(false);
-  const [declineHover, setDeclineHover] = useState(false);
+  const [choice, setChoice] = useState<UrgencyChoice>(null);
+  const [secondsLeft, setSecondsLeft] = useState(COUNTDOWN_START_SECONDS);
+  const [waitReady, setWaitReady] = useState(false);
+  const [waitHover, setWaitHover] = useState(false);
   const [showExplanation, setShowExplanation] = useState(false);
+  const [timerPulse, setTimerPulse] = useState(false);
 
   const resolved = choice !== null;
 
-  // Brief delay before decline is clickable — mimics platforms that hide the real “No”.
   useEffect(() => {
     if (!open || resolved) return;
-    const timer = window.setTimeout(() => setDeclineReady(true), DECLINE_ENABLE_DELAY_MS);
+    const timer = window.setTimeout(() => setWaitReady(true), WAIT_ENABLE_DELAY_MS);
     return () => window.clearTimeout(timer);
   }, [open, resolved]);
 
-  // Reveal explanation after modal exit animation completes.
+  useEffect(() => {
+    if (!open || resolved) return;
+
+    const interval = window.setInterval(() => {
+      setSecondsLeft((prev) => {
+        if (prev <= 1) {
+          setTimerPulse(true);
+          window.setTimeout(() => setTimerPulse(false), 400);
+          return COUNTDOWN_START_SECONDS;
+        }
+        return prev - 1;
+      });
+    }, TICK_MS);
+
+    return () => window.clearInterval(interval);
+  }, [open, resolved]);
+
   useEffect(() => {
     if (!resolved) {
       setShowExplanation(false);
@@ -112,7 +126,7 @@ export function ConfirmShamingModal({
     if (!footerExplanation || !onExplanation) return;
     if (showExplanation && choice) {
       onExplanation(
-        <ConfirmShamingExplanation choice={choice} embedded={embedded} footer />,
+        <FakeUrgencyExplanation choice={choice} embedded={embedded} footer />,
       );
       return;
     }
@@ -124,7 +138,7 @@ export function ConfirmShamingModal({
     return () => onExplanation(null);
   }, [onExplanation, footerExplanation]);
 
-  const handleChoice = (next: ShamingChoice) => {
+  const handleChoice = (next: UrgencyChoice) => {
     if (resolved) return;
     setChoice(next);
   };
@@ -138,7 +152,7 @@ export function ConfirmShamingModal({
       <AnimatePresence mode="wait">
         {!resolved ? (
           <motion.div
-            key="confirm-shaming-modal"
+            key="fake-urgency-modal"
             className={
               embedded
                 ? "relative z-0 w-full"
@@ -159,11 +173,13 @@ export function ConfirmShamingModal({
             <ModalLayer
               embedded={embedded}
               reducedMotion={reducedMotion}
-              declineReady={declineReady}
-              declineHover={declineHover}
-              onDeclineHover={setDeclineHover}
-              onAccept={() => handleChoice("accept")}
-              onDecline={() => handleChoice("decline")}
+              secondsLeft={secondsLeft}
+              timerPulse={timerPulse}
+              waitReady={waitReady}
+              waitHover={waitHover}
+              onWaitHover={setWaitHover}
+              onRush={() => handleChoice("rush")}
+              onWait={() => handleChoice("wait")}
             />
           </motion.div>
         ) : null}
@@ -172,7 +188,7 @@ export function ConfirmShamingModal({
       {!footerExplanation ? (
         <AnimatePresence>
           {showExplanation && choice ? (
-            <ConfirmShamingExplanation key="explanation" choice={choice} embedded={embedded} />
+            <FakeUrgencyExplanation key="explanation" choice={choice} embedded={embedded} />
           ) : null}
         </AnimatePresence>
       ) : null}
@@ -180,31 +196,42 @@ export function ConfirmShamingModal({
   );
 }
 
-// ---------------------------------------------------------------------------
-// Modal layer — backdrop + dialog + CTAs
-// ---------------------------------------------------------------------------
-
 type ModalLayerProps = {
   embedded: boolean;
   reducedMotion: boolean;
-  declineReady: boolean;
-  declineHover: boolean;
-  onDeclineHover: (hover: boolean) => void;
-  onAccept: () => void;
-  onDecline: () => void;
+  secondsLeft: number;
+  timerPulse: boolean;
+  waitReady: boolean;
+  waitHover: boolean;
+  onWaitHover: (hover: boolean) => void;
+  onRush: () => void;
+  onWait: () => void;
 };
 
 function ModalLayer({
   embedded,
   reducedMotion,
-  declineReady,
-  declineHover,
-  onDeclineHover,
-  onAccept,
-  onDecline,
+  secondsLeft,
+  timerPulse,
+  waitReady,
+  waitHover,
+  onWaitHover,
+  onRush,
+  onWait,
 }: ModalLayerProps) {
-  const { badge, title, subtitle, acceptLabel, declineLabel, declineHoverHint, declineLoadingHint } =
-    CONFIRM_SHAMING_COPY;
+  const {
+    badge,
+    title,
+    subtitle,
+    stockLabel,
+    viewersLabel,
+    rushLabel,
+    waitLabel,
+    waitHoverHint,
+    timerResetHint,
+  } = FAKE_URGENCY_COPY;
+
+  const isLowTime = secondsLeft <= 15;
 
   return (
     <>
@@ -215,18 +242,17 @@ function ModalLayer({
       <motion.div
         role="dialog"
         aria-modal="true"
-        aria-labelledby="confirm-shaming-title"
-        aria-describedby="confirm-shaming-desc"
-        className={`relative z-0 w-full border border-museum-neon/45 bg-museum-panel shadow-neon ${
+        aria-labelledby="fake-urgency-title"
+        aria-describedby="fake-urgency-desc"
+        className={`relative z-0 w-full border border-museum-warning/45 bg-museum-panel shadow-neon ${
           embedded ? "max-w-none" : "z-10 max-w-md"
         }`}
         initial={{ opacity: 0, scale: 0.94, y: 16 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: reducedMotion ? 0 : 0.4, ease: [0.22, 1, 0.36, 1] }}
       >
-        {/* Header strip — urgency badge */}
-        <div className="border-b border-museum-neon/30 bg-museum-neon/10 px-4 py-3 sm:px-5">
-          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-museum-neon">
+        <div className="border-b border-museum-warning/35 bg-museum-warning/10 px-4 py-3 sm:px-5">
+          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-museum-warning">
             {badge}
           </p>
         </div>
@@ -234,111 +260,133 @@ function ModalLayer({
         <div className={`${embedded ? "space-y-3 p-3" : "space-y-5 p-4 sm:p-5"}`}>
           <div>
             <h3
-              id="confirm-shaming-title"
+              id="fake-urgency-title"
               className="font-display text-lg uppercase leading-tight tracking-wider text-museum-text sm:text-xl"
             >
               {title}
             </h3>
-            <p
-              id="confirm-shaming-desc"
-              className="mt-2 text-sm leading-6 text-museum-muted"
-            >
+            <p id="fake-urgency-desc" className="mt-2 text-sm leading-6 text-museum-muted">
               {subtitle}
             </p>
           </div>
 
-          {/* Compliant subscribe — large, neon, pulsing glow */}
+          <motion.div
+            className={`border p-4 text-center ${
+              isLowTime
+                ? "border-museum-neon/70 bg-museum-neon/15"
+                : "border-museum-warning/50 bg-museum-warning/10"
+            }`}
+            animate={
+              reducedMotion || !isLowTime
+                ? timerPulse
+                  ? { scale: [1, 1.04, 1] }
+                  : undefined
+                : {
+                    opacity: [1, 0.7, 1],
+                    scale: [1, 1.02, 1],
+                  }
+            }
+            transition={{
+              duration: timerPulse ? 0.4 : 0.85,
+              repeat: timerPulse ? 0 : Infinity,
+            }}
+          >
+            <p className="font-display text-4xl tabular-nums tracking-wider text-museum-neon sm:text-5xl">
+              {formatCountdown(secondsLeft)}
+            </p>
+            {timerPulse ? (
+              <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.2em] text-museum-warning">
+                {timerResetHint}
+              </p>
+            ) : null}
+          </motion.div>
+
+          <div className="grid grid-cols-2 gap-2 font-mono text-[9px] uppercase tracking-[0.14em] sm:text-[10px]">
+            <div className="border border-museum-border bg-museum-void/60 px-2 py-2 text-center text-museum-muted">
+              <span className="block text-museum-warning">{stockLabel}</span>
+              <span className="mt-1 block text-museum-neon">2 left</span>
+            </div>
+            <div className="border border-museum-border bg-museum-void/60 px-2 py-2 text-center text-museum-muted">
+              <span className="block text-museum-scan">{viewersLabel}</span>
+            </div>
+          </div>
+
           <motion.button
             type="button"
-            onClick={onAccept}
-            className="w-full border border-museum-neon/70 bg-museum-neon/15 px-4 py-4 font-mono text-[10px] uppercase leading-snug tracking-[0.1em] text-museum-neon transition-colors hover:bg-museum-neon/25 hover:shadow-neon-sm sm:text-[11px] sm:tracking-[0.12em]"
+            onClick={onRush}
+            className="w-full border border-museum-neon/70 bg-museum-neon/15 px-4 py-4 font-mono text-[10px] uppercase leading-snug tracking-[0.1em] text-museum-neon transition-colors hover:bg-museum-neon/25 hover:shadow-neon-sm sm:text-[11px]"
             animate={
               reducedMotion
                 ? undefined
                 : {
                     boxShadow: [
                       "0 0 0 rgba(255,0,60,0)",
-                      "0 0 24px rgba(255,0,60,0.35)",
+                      "0 0 22px rgba(255,0,60,0.4)",
                       "0 0 0 rgba(255,0,60,0)",
                     ],
                   }
             }
-            transition={{ duration: 2.2, repeat: Infinity }}
+            transition={{ duration: 1.6, repeat: Infinity }}
           >
-            {acceptLabel}
+            {rushLabel}
           </motion.button>
 
-          {/* Refuse subscribe — smaller, muted, shame copy */}
           <div className="relative pb-6">
             <motion.button
               type="button"
-              disabled={!declineReady}
-              onClick={onDecline}
-              onMouseEnter={() => onDeclineHover(true)}
-              onMouseLeave={() => onDeclineHover(false)}
-              onFocus={() => onDeclineHover(true)}
-              onBlur={() => onDeclineHover(false)}
-              className="w-full border border-museum-border bg-museum-void/60 px-3 py-2.5 font-mono text-[9px] uppercase leading-relaxed tracking-[0.06em] text-museum-muted transition-colors enabled:hover:border-museum-warning/50 enabled:hover:text-museum-warning disabled:cursor-not-allowed disabled:opacity-40 sm:text-[10px] sm:tracking-[0.08em]"
-              whileHover={
-                declineReady && !reducedMotion ? { x: [0, -1, 1, 0] } : undefined
-              }
-              transition={{ duration: 0.35 }}
+              disabled={!waitReady}
+              onClick={onWait}
+              onMouseEnter={() => onWaitHover(true)}
+              onMouseLeave={() => onWaitHover(false)}
+              onFocus={() => onWaitHover(true)}
+              onBlur={() => onWaitHover(false)}
+              className="w-full border border-museum-border bg-museum-void/60 px-3 py-2.5 font-mono text-[9px] uppercase leading-relaxed tracking-[0.06em] text-museum-muted transition-colors enabled:hover:border-museum-warning/50 enabled:hover:text-museum-warning disabled:cursor-not-allowed disabled:opacity-40 sm:text-[10px]"
             >
-              {declineLabel}
+              {waitLabel}
             </motion.button>
 
             <AnimatePresence>
-              {declineHover && declineReady ? (
+              {waitHover && waitReady ? (
                 <motion.p
                   className="absolute bottom-0 left-0 right-0 text-center font-mono text-[9px] uppercase tracking-[0.14em] text-museum-warning"
                   initial={{ opacity: 0, y: -4 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
                 >
-                  {declineHoverHint}
+                  {waitHoverHint}
                 </motion.p>
               ) : null}
             </AnimatePresence>
           </div>
-
-          {!declineReady ? (
-            <p className="text-center font-mono text-[9px] uppercase tracking-[0.2em] text-museum-scan/80">
-              {declineLoadingHint}
-            </p>
-          ) : null}
         </div>
       </motion.div>
     </>
   );
 }
 
-// ---------------------------------------------------------------------------
-// Explanation block — critical commentary after the trap closes
-// ---------------------------------------------------------------------------
-
-type ConfirmShamingExplanationProps = {
-  choice: NonNullable<ShamingChoice>;
+type FakeUrgencyExplanationProps = {
+  choice: NonNullable<UrgencyChoice>;
   embedded: boolean;
   footer?: boolean;
 };
 
-function ConfirmShamingExplanation({
+function FakeUrgencyExplanation({
   choice,
   embedded,
   footer = false,
-}: ConfirmShamingExplanationProps) {
+}: FakeUrgencyExplanationProps) {
   const {
     sectionLabel,
-    acceptOpener,
-    declineOpener,
+    rushOpener,
+    waitOpener,
     bodyLead,
     bodyFollowUpBefore,
     bodyFollowUpHighlight,
     bodyFollowUpAfter,
     museumNote,
-  } = CONFIRM_SHAMING_EXPLANATION;
+  } = FAKE_URGENCY_EXPLANATION;
 
-  const opener = choice === "accept" ? acceptOpener : declineOpener;
+  const opener = choice === "rush" ? rushOpener : waitOpener;
 
   const sectionClass = footer
     ? "space-y-3 px-4 py-4 md:px-6 md:py-5"
@@ -352,7 +400,6 @@ function ConfirmShamingExplanation({
       variants={fadeUp}
       initial="hidden"
       animate="visible"
-      exit={{ opacity: 0, y: 12 }}
     >
       <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-museum-scan">
         {sectionLabel}
@@ -376,7 +423,7 @@ function ConfirmShamingExplanation({
         }
       >
         <p>
-          <strong className="text-museum-text">Confirmshaming</strong>
+          <strong className="text-museum-text">Fake urgency</strong>
           {bodyLead}
         </p>
         <p>

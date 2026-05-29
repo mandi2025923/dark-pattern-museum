@@ -1,0 +1,118 @@
+import type { DarkPattern } from "@/types/museum";
+
+export type DarkPatternCategory = DarkPattern;
+
+export const darkPatterns: DarkPattern[] = [
+  {
+    id: "infinite-scroll",
+    slug: "infinite-scroll",
+    title: "Infinite Scroll",
+    titleEn: "Infinite Scroll",
+    description:
+      "A never-ending stream of content that removes your natural stopping point.",
+    criticalTheme: "Attention extraction through a feed with no natural stopping point.",
+    realWorldInspiredExample: "Social feeds and short-video timelines that keep loading new material.",
+    emotionalEffect: "Loss of time, blurred intention, low-level compulsion.",
+    simulationType: "infinite-scroll",
+    status: "planned",
+    threatLevel: 4,
+  },
+  {
+    id: "confirmshaming",
+    slug: "confirmshaming",
+    title: "Confirm Shaming",
+    titleEn: "Confirm Shaming",
+    description:
+      "The decline option is designed to make you feel guilty or foolish.",
+    criticalTheme: "Language is used as pressure, not explanation.",
+    realWorldInspiredExample: "Newsletter popups where the decline button insults the user.",
+    emotionalEffect: "Guilt, irritation, hesitation.",
+    simulationType: "confirmshaming",
+    status: "planned",
+    threatLevel: 3,
+  },
+  {
+    id: "fake-urgency",
+    slug: "fake-urgency",
+    title: "Fake Urgency",
+    titleEn: "Fake Urgency",
+    description: "Artificial countdowns and stock anxiety manufactured to rush consent.",
+    criticalTheme: "Artificial scarcity compresses decision-making time.",
+    realWorldInspiredExample: "Booking and shopping interfaces that show expiring timers or low-stock warnings.",
+    emotionalEffect: "Panic, fear of missing out, rushed consent.",
+    simulationType: "fake-urgency",
+    status: "planned",
+    threatLevel: 5,
+  },
+  {
+    id: "forced-continuity",
+    slug: "forced-continuity",
+    title: "Forced Continuity",
+    titleEn: "Forced Continuity",
+    description: "Free trials quietly convert into paid subscriptions.",
+    criticalTheme: "Forgetting becomes part of the business model.",
+    realWorldInspiredExample: "Free trials that auto-convert without a clear reminder or cancellation path.",
+    emotionalEffect: "Surprise, regret, mistrust.",
+    simulationType: "forced-continuity",
+    status: "planned",
+    threatLevel: 4,
+  },
+  {
+    id: "notification-addiction",
+    slug: "notification-addiction",
+    title: "Notification Addiction",
+    titleEn: "Notification Addiction",
+    description: "Badges, vibrations, and push alerts that hijack attention.",
+    criticalTheme: "Interruption becomes a retention strategy.",
+    realWorldInspiredExample: "Apps that send social, promotional, and algorithmic prompts throughout the day.",
+    emotionalEffect: "Anticipation, distraction, anxiety.",
+    simulationType: "notification-addiction",
+    status: "planned",
+    threatLevel: 5,
+  },
+  {
+    id: "privacy-zuckering",
+    slug: "privacy-zuckering",
+    title: "Privacy Zuckering",
+    titleEn: "Privacy Zuckering",
+    description: "Complex flows designed to make you give up privacy control.",
+    criticalTheme: "Consent is buried under complexity.",
+    realWorldInspiredExample: "Privacy settings that frame broad sharing as the default path.",
+    emotionalEffect: "Confusion, fatigue, false reassurance.",
+    simulationType: "privacy-zuckering",
+    status: "planned",
+    threatLevel: 3,
+  },
+  {
+    id: "algorithmic-manipulation",
+    slug: "algorithmic-manipulation",
+    title: "Algorithmic Manipulation",
+    titleEn: "Algorithmic Manipulation",
+    description: "Recommendation systems shape your desires and moods.",
+    criticalTheme: "Choice is narrowed while still feeling personal.",
+    realWorldInspiredExample: "Recommendation feeds that intensify a user's previous clicks.",
+    emotionalEffect: "Tunnel vision, fixation, emotional drift.",
+    simulationType: "algorithmic-manipulation",
+    status: "planned",
+    threatLevel: 5,
+  },
+  {
+    id: "information-bombardment",
+    slug: "information-bombardment",
+    title: "Information Overload",
+    titleEn: "Information Overload",
+    description: "Overloaded interfaces that prevent clear, calm decisions.",
+    criticalTheme: "Too much information can become a form of control.",
+    realWorldInspiredExample: "Consent screens and checkout pages packed with competing prompts.",
+    emotionalEffect: "Cognitive fatigue, avoidance, accidental agreement.",
+    simulationType: "information-bombardment",
+    status: "planned",
+    threatLevel: 4,
+  },
+];
+
+export const darkPatternCategories = darkPatterns;
+
+export function getDarkPattern(slug: string) {
+  return darkPatterns.find((pattern) => pattern.slug === slug);
+}
