@@ -29,17 +29,18 @@ src/
 | Route | Description |
 |-------|-------------|
 | `/` | Home: cinematic hero, safety notice, archive preview |
-| `/archive` | Dark pattern archive (nine UX pattern records) |
+| `/archive` | Dark pattern archive (15 UX pattern records) |
 | `/archive/[slug]` | Single archive record |
 | `/rooms` | Simulation room index |
 | `/rooms/[slug]` | Individual controlled simulation room |
 | `/rooms/confirmshaming` | Confirm shaming simulation room |
-| `/attention` | Attention economy visualization (foundation) |
+| `/rooms/fake-urgency` | Fake urgency simulation room (Pressure Timer) |
+| `/attention` | Attention economy visualization |
 | `/reflection` | Reflection prompts |
 | `/exit` | Final exit sequence |
 | `/about` | Project background, theory, ethics |
 
-`/exhibits` redirects to `/archive` where configured.
+`/exhibits` redirects to `/archive` via client-side router.
 
 ## Local development
 
@@ -54,17 +55,18 @@ Open [http://localhost:3000](http://localhost:3000).
 ## Build and deploy
 
 ```bash
-npm run build
-npm start
+npm run build    # static export → out/
+npm start        # local preview of static build
 ```
 
-Deploy to [Vercel](https://vercel.com) by connecting the Git repository.
+The project is configured with `output: "export"` and `basePath: "/dark-pattern-museum"` for GitHub Pages deployment at [mandi2025923.github.io/dark-pattern-museum](https://mandi2025923.github.io/dark-pattern-museum). Push to `main` for source and `gh-pages` for static output.
 
 ## Design notes
 
-- **Palette**: void black, neon red, scan cyan, warning amber
-- **Type**: Orbitron (display), Exo 2 (body), Share Tech Mono (labels)
-- **Motion**: entrance fades, nav indicator, scanline overlay; respects `prefers-reduced-motion`
+- **Palette**: void black, neon green (`#39ff14`), scan cyan, warning amber
+- **Type**: monospace + sans-serif (Tailwind defaults)
+- **Motion**: Framer Motion entrance fades, scanline overlay, atmospheric field; respects `prefers-reduced-motion`
+- **Static export**: no server, no tracking, no personalisation — the museum's formal argument against surveillant infrastructure
 
 ## Further development
 

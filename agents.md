@@ -71,6 +71,7 @@ Use this stack unless the user requests otherwise:
 - Tailwind CSS
 - Framer Motion
 - Vercel deployment
+- GitHub Pages (current deployment)
 
 Optional additions:
 
