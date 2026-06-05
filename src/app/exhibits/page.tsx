@@ -1,6 +1,13 @@
-import { redirect } from "next/navigation";
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { routes } from "@/lib/routes";
 
 export default function LegacyExhibitsPage() {
-  redirect(routes.archive);
+  const router = useRouter();
+  useEffect(() => {
+    router.replace(routes.archive);
+  }, [router]);
+  return null;
 }
