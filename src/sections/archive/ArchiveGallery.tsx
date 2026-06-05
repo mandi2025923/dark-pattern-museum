@@ -14,7 +14,6 @@ type ArchiveGalleryProps = {
 export function ArchiveGallery({ records }: ArchiveGalleryProps) {
   const [activePattern, setActivePattern] = useState<ArchiveGalleryRecord | null>(null);
 
-  /** One dossier per id — no feed-derived duplicate rows on the index. */
   const galleryRecords = useMemo(() => {
     const seen = new Set<string>();
     return records.filter((record) => {
@@ -25,20 +24,30 @@ export function ArchiveGallery({ records }: ArchiveGalleryProps) {
   }, [records]);
 
   return (
-    <section className="relative overflow-x-hidden px-4 pb-20 pt-8 md:px-6">
+    <section
+      className="relative overflow-x-hidden px-4 pb-20 pt-8 md:px-6"
+      aria-labelledby="archive-gallery-heading"
+    >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_120%_80%_at_50%_-20%,rgba(255,0,60,0.06),transparent_50%)]" />
       <div className="pointer-events-none absolute inset-0 bg-grid-cyber opacity-30 [background-size:var(--grid-size)_var(--grid-size)]" />
 
       <div className="relative mx-auto w-full max-w-3xl">
-        <div className="border-y border-museum-border py-6">
+        <header className="border-y border-museum-border py-6">
           <SectionLabel
             index="ARCHIVE"
             title="Vertical dark gallery"
-            subtitle="Four fixed dossiers. Hover for hall lighting, open a dossier for the split trap preview — no list shortcuts to records."
+            subtitle="Four fixed dossiers — confirm shaming, fake urgency, motel dark pattern, forced auto-renewal. Hover for hall lighting; open a card for the split trap preview."
           />
-        </div>
+          <p id="archive-gallery-heading" className="sr-only">
+            Dark pattern archive gallery
+          </p>
+        </header>
 
-        <ul className="mt-10 flex list-none flex-col gap-10 p-0 md:gap-14">
+        <ul
+          className="mt-10 flex list-none flex-col gap-10 p-0 md:gap-14"
+          role="list"
+          aria-label="Archive dossier cards"
+        >
           {galleryRecords.map((pattern) => (
             <li key={pattern.id} className="list-none">
               <ArchiveRecordCard

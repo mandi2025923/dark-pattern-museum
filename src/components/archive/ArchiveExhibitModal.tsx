@@ -13,7 +13,11 @@ import {
   isInteractiveDossierSimulation,
 } from "@/lib/simulation-exhibits";
 import { archiveRoute, roomRoute } from "@/lib/routes";
+import { cn } from "@/lib/cn";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+
+/** Archive modal right panels that must fit without vertical scroll. */
+const COMPACT_SIMULATION_PREVIEW_SLUGS = new Set(["fake-urgency", "motel-dark-pattern"]);
 
 type ArchiveExhibitModalProps = {
   pattern: ArchiveGalleryRecord | null;
@@ -47,6 +51,10 @@ export function ArchiveExhibitModal({ pattern, onClose }: ArchiveExhibitModalPro
   const usesInteractiveTrap = pattern
     ? isInteractiveDossierSimulation(pattern.simulationType)
     : false;
+  const compactSimulationPreview = pattern
+    ? COMPACT_SIMULATION_PREVIEW_SLUGS.has(pattern.simulationType)
+    : false;
+
   return (
     <AnimatePresence>
       {open && pattern ? (
@@ -98,8 +106,18 @@ export function ArchiveExhibitModal({ pattern, onClose }: ArchiveExhibitModalPro
               </button>
             </header>
 
-            <div className="min-h-0 flex-1 overflow-y-auto">
+            <div
+              className={cn(
+                "min-h-0 flex-1",
+                compactSimulationPreview ? "overflow-hidden" : "overflow-y-auto",
+              )}
+            >
               <SimulationSplitLayout
+                simulationPanelClassName={
+                  compactSimulationPreview
+                    ? "overflow-hidden p-2 md:w-[340px] md:max-w-[340px] md:shrink-0"
+                    : undefined
+                }
                 meta={
                   <ArchiveDossierMeta pattern={pattern}>
                     <div className="mt-6 grid gap-2">
@@ -124,7 +142,12 @@ export function ArchiveExhibitModal({ pattern, onClose }: ArchiveExhibitModalPro
                   </ArchiveDossierMeta>
                 }
                 simulation={
-                  <div className="border border-museum-border bg-museum-void/50 p-3">
+                  <div
+                    className={cn(
+                      "border border-museum-border bg-museum-void/50",
+                      compactSimulationPreview ? "overflow-hidden p-0" : "p-3",
+                    )}
+                  >
                     <PatternSimulation
                       type={pattern.simulationType}
                       variant={usesInteractiveTrap ? "interactive" : "preview"}

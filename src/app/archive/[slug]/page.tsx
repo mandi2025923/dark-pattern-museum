@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageScaffold } from "@/components/museum/PageScaffold";
-import { getDarkPattern, darkPatterns } from "@/data/darkPatterns";
+import { ARCHIVE_GALLERY_SLUGS } from "@/data/archiveGallery";
+import { getDarkPattern } from "@/data/darkPatterns";
 import { roomRoute } from "@/lib/routes";
 import { CyberButton } from "@/components/ui/CyberButton";
 
@@ -10,7 +11,7 @@ type ExhibitPageProps = {
 };
 
 export function generateStaticParams() {
-  return darkPatterns.map((pattern) => ({ slug: pattern.slug }));
+  return ARCHIVE_GALLERY_SLUGS.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -31,6 +32,11 @@ export async function generateMetadata({
 
 export default async function ExhibitDetailPage({ params }: ExhibitPageProps) {
   const { slug } = await params;
+
+  if (!(ARCHIVE_GALLERY_SLUGS as readonly string[]).includes(slug)) {
+    notFound();
+  }
+
   const pattern = getDarkPattern(slug);
 
   if (!pattern) {

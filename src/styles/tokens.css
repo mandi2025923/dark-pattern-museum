@@ -1,0 +1,19 @@
+:root {
+  --museum-void: #050508;
+  --museum-surface: #0c0c14;
+  --museum-panel: #12121c;
+  --museum-border: #1e1e2e;
+  --museum-text: #e4e4f0;
+  --museum-muted: #5c5c78;
+  --museum-neon: #ff003c;
+  --museum-warning: #ffb020;
+  --museum-scan: #00f0ff;
+  --motion-fast: 180ms;
+  --motion-base: 450ms;
+  --motion-slow: 800ms;
+  --grid-size: 48px;
+}
+
+[data-theme="museum-dark"] {
+  color-scheme: dark;
+}

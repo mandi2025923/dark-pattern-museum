@@ -75,7 +75,8 @@ export function FakeUrgencyModal({
   layout = "overlay",
   onExplanation,
 }: FakeUrgencyModalProps) {
-  const embedded = layout === "embedded" || layout === "split";
+  const splitCompact = layout === "split";
+  const embedded = layout === "embedded" || splitCompact;
   const footerExplanation = layout === "split" && Boolean(onExplanation);
   const reducedMotion = useReducedMotion();
   const [choice, setChoice] = useState<UrgencyChoice>(null);
@@ -172,6 +173,7 @@ export function FakeUrgencyModal({
           >
             <ModalLayer
               embedded={embedded}
+              splitCompact={splitCompact}
               reducedMotion={reducedMotion}
               secondsLeft={secondsLeft}
               timerPulse={timerPulse}
@@ -198,6 +200,7 @@ export function FakeUrgencyModal({
 
 type ModalLayerProps = {
   embedded: boolean;
+  splitCompact: boolean;
   reducedMotion: boolean;
   secondsLeft: number;
   timerPulse: boolean;
@@ -210,6 +213,7 @@ type ModalLayerProps = {
 
 function ModalLayer({
   embedded,
+  splitCompact,
   reducedMotion,
   secondsLeft,
   timerPulse,
@@ -233,6 +237,30 @@ function ModalLayer({
 
   const isLowTime = secondsLeft <= 15;
 
+  const headerPad = splitCompact ? "px-3 py-2" : "px-4 py-3 sm:px-5";
+  const bodyClass = splitCompact
+    ? "space-y-2 p-2"
+    : embedded
+      ? "space-y-3 p-3"
+      : "space-y-5 p-4 sm:p-5";
+  const titleClass = splitCompact
+    ? "font-display text-sm uppercase leading-tight tracking-wider text-museum-text"
+    : "font-display text-lg uppercase leading-tight tracking-wider text-museum-text sm:text-xl";
+  const subtitleClass = splitCompact
+    ? "mt-1 text-xs leading-5 text-museum-muted"
+    : "mt-2 text-sm leading-6 text-museum-muted";
+  const timerPad = splitCompact ? "border p-2 text-center" : "border p-4 text-center";
+  const timerTextClass = splitCompact
+    ? "font-display text-2xl tabular-nums tracking-wider text-museum-neon"
+    : "font-display text-4xl tabular-nums tracking-wider text-museum-neon sm:text-5xl";
+  const rushBtnClass = splitCompact
+    ? "w-full border border-museum-neon/70 bg-museum-neon/15 px-2 py-2.5 font-mono text-[8px] uppercase leading-snug tracking-[0.08em] text-museum-neon transition-colors hover:bg-museum-neon/25 hover:shadow-neon-sm"
+    : "w-full border border-museum-neon/70 bg-museum-neon/15 px-4 py-4 font-mono text-[10px] uppercase leading-snug tracking-[0.1em] text-museum-neon transition-colors hover:bg-museum-neon/25 hover:shadow-neon-sm sm:text-[11px]";
+  const waitWrapClass = splitCompact ? "relative pb-4" : "relative pb-6";
+  const waitBtnClass = splitCompact
+    ? "w-full border border-museum-border bg-museum-void/60 px-2 py-2 font-mono text-[8px] uppercase leading-relaxed tracking-[0.05em] text-museum-muted transition-colors enabled:hover:border-museum-warning/50 enabled:hover:text-museum-warning disabled:cursor-not-allowed disabled:opacity-40"
+    : "w-full border border-museum-border bg-museum-void/60 px-3 py-2.5 font-mono text-[9px] uppercase leading-relaxed tracking-[0.06em] text-museum-muted transition-colors enabled:hover:border-museum-warning/50 enabled:hover:text-museum-warning disabled:cursor-not-allowed disabled:opacity-40 sm:text-[10px]";
+
   return (
     <>
       {!embedded ? (
@@ -251,27 +279,24 @@ function ModalLayer({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: reducedMotion ? 0 : 0.4, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div className="border-b border-museum-warning/35 bg-museum-warning/10 px-4 py-3 sm:px-5">
+        <div className={`border-b border-museum-warning/35 bg-museum-warning/10 ${headerPad}`}>
           <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-museum-warning">
             {badge}
           </p>
         </div>
 
-        <div className={`${embedded ? "space-y-3 p-3" : "space-y-5 p-4 sm:p-5"}`}>
+        <div className={bodyClass}>
           <div>
-            <h3
-              id="fake-urgency-title"
-              className="font-display text-lg uppercase leading-tight tracking-wider text-museum-text sm:text-xl"
-            >
+            <h3 id="fake-urgency-title" className={titleClass}>
               {title}
             </h3>
-            <p id="fake-urgency-desc" className="mt-2 text-sm leading-6 text-museum-muted">
+            <p id="fake-urgency-desc" className={subtitleClass}>
               {subtitle}
             </p>
           </div>
 
           <motion.div
-            className={`border p-4 text-center ${
+            className={`${timerPad} ${
               isLowTime
                 ? "border-museum-neon/70 bg-museum-neon/15"
                 : "border-museum-warning/50 bg-museum-warning/10"
@@ -291,9 +316,7 @@ function ModalLayer({
               repeat: timerPulse ? 0 : Infinity,
             }}
           >
-            <p className="font-display text-4xl tabular-nums tracking-wider text-museum-neon sm:text-5xl">
-              {formatCountdown(secondsLeft)}
-            </p>
+            <p className={timerTextClass}>{formatCountdown(secondsLeft)}</p>
             {timerPulse ? (
               <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.2em] text-museum-warning">
                 {timerResetHint}
@@ -301,7 +324,7 @@ function ModalLayer({
             ) : null}
           </motion.div>
 
-          <div className="grid grid-cols-2 gap-2 font-mono text-[9px] uppercase tracking-[0.14em] sm:text-[10px]">
+          <div className={`grid grid-cols-2 gap-2 font-mono uppercase tracking-[0.14em] ${splitCompact ? "text-[8px]" : "text-[9px] sm:text-[10px]"}`}>
             <div className="border border-museum-border bg-museum-void/60 px-2 py-2 text-center text-museum-muted">
               <span className="block text-museum-warning">{stockLabel}</span>
               <span className="mt-1 block text-museum-neon">2 left</span>
@@ -314,7 +337,7 @@ function ModalLayer({
           <motion.button
             type="button"
             onClick={onRush}
-            className="w-full border border-museum-neon/70 bg-museum-neon/15 px-4 py-4 font-mono text-[10px] uppercase leading-snug tracking-[0.1em] text-museum-neon transition-colors hover:bg-museum-neon/25 hover:shadow-neon-sm sm:text-[11px]"
+            className={rushBtnClass}
             animate={
               reducedMotion
                 ? undefined
@@ -331,7 +354,7 @@ function ModalLayer({
             {rushLabel}
           </motion.button>
 
-          <div className="relative pb-6">
+          <div className={waitWrapClass}>
             <motion.button
               type="button"
               disabled={!waitReady}
@@ -340,7 +363,7 @@ function ModalLayer({
               onMouseLeave={() => onWaitHover(false)}
               onFocus={() => onWaitHover(true)}
               onBlur={() => onWaitHover(false)}
-              className="w-full border border-museum-border bg-museum-void/60 px-3 py-2.5 font-mono text-[9px] uppercase leading-relaxed tracking-[0.06em] text-museum-muted transition-colors enabled:hover:border-museum-warning/50 enabled:hover:text-museum-warning disabled:cursor-not-allowed disabled:opacity-40 sm:text-[10px]"
+              className={waitBtnClass}
             >
               {waitLabel}
             </motion.button>

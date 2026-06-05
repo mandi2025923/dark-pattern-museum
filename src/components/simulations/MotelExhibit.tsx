@@ -51,7 +51,8 @@ export function MotelExhibit({
   layout = "overlay",
   onExplanation,
 }: MotelExhibitProps) {
-  const embedded = layout === "embedded" || layout === "split";
+  const splitCompact = layout === "split";
+  const embedded = layout === "embedded" || splitCompact;
   const footerExplanation = layout === "split" && Boolean(onExplanation);
   const reducedMotion = useReducedMotion();
   const [choice, setChoice] = useState<MotelChoice>(null);
@@ -113,6 +114,32 @@ export function MotelExhibit({
     frictionSteps,
   } = MOTEL_EXHIBIT_COPY;
 
+  const headerPad = splitCompact ? "px-3 py-2" : "px-4 py-3";
+  const bodyClass = splitCompact
+    ? "space-y-2 p-2"
+    : embedded
+      ? "space-y-3 p-3"
+      : "space-y-5 p-4 sm:p-5";
+  const titleClass = splitCompact
+    ? "font-display text-sm uppercase leading-tight tracking-wider text-museum-text"
+    : "font-display text-lg uppercase leading-tight tracking-wider text-museum-text sm:text-xl";
+  const subtitleClass = splitCompact
+    ? "mt-1 text-xs leading-5 text-museum-muted"
+    : "mt-2 text-sm leading-6 text-museum-muted";
+  const enterBtnClass = splitCompact
+    ? "w-full border border-museum-neon/70 bg-museum-neon/15 px-2 py-2.5 font-mono text-[8px] uppercase leading-snug tracking-[0.08em] text-museum-neon transition-colors hover:bg-museum-neon/25 hover:shadow-neon-sm"
+    : "w-full border border-museum-neon/70 bg-museum-neon/15 px-4 py-4 font-mono text-[10px] uppercase leading-snug tracking-[0.1em] text-museum-neon transition-colors hover:bg-museum-neon/25 hover:shadow-neon-sm sm:text-[11px]";
+  const frictionWrapClass = splitCompact
+    ? "space-y-1 border border-museum-border/80 bg-museum-void/50 p-1.5"
+    : "space-y-1.5 border border-museum-border/80 bg-museum-void/50 p-2";
+  const frictionStepClass = splitCompact
+    ? "border border-museum-border px-1.5 py-1 font-mono text-[8px] uppercase tracking-[0.1em] text-museum-muted/90"
+    : "border border-museum-border px-2 py-1.5 font-mono text-[9px] uppercase tracking-[0.12em] text-museum-muted/90";
+  const exitWrapClass = splitCompact ? "relative pb-4" : "relative pb-6";
+  const exitBtnClass = splitCompact
+    ? "w-full border border-museum-border bg-museum-void/60 px-2 py-2 font-mono text-[8px] uppercase leading-relaxed tracking-[0.05em] text-museum-muted transition-colors enabled:hover:border-museum-warning/50 enabled:hover:text-museum-warning disabled:cursor-not-allowed disabled:opacity-40"
+    : "w-full border border-museum-border bg-museum-void/60 px-3 py-2.5 font-mono text-[9px] uppercase leading-relaxed tracking-[0.06em] text-museum-muted transition-colors enabled:hover:border-museum-warning/50 enabled:hover:text-museum-warning disabled:cursor-not-allowed disabled:opacity-40 sm:text-[10px]";
+
   return (
     <div className={viewportClass}>
       <AnimatePresence mode="wait">
@@ -151,27 +178,24 @@ export function MotelExhibit({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: reducedMotion ? 0 : 0.4, ease: [0.22, 1, 0.36, 1] }}
             >
-              <div className="border-b border-museum-scan/30 bg-museum-scan/5 px-4 py-3">
+              <div className={`border-b border-museum-scan/30 bg-museum-scan/5 ${headerPad}`}>
                 <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-museum-scan">
                   {badge}
                 </p>
               </div>
 
-              <div className={`${embedded ? "space-y-3 p-3" : "space-y-5 p-4 sm:p-5"}`}>
+              <div className={bodyClass}>
                 <div>
-                  <h3
-                    id="motel-exhibit-title"
-                    className="font-display text-lg uppercase leading-tight tracking-wider text-museum-text sm:text-xl"
-                  >
+                  <h3 id="motel-exhibit-title" className={titleClass}>
                     {title}
                   </h3>
-                  <p className="mt-2 text-sm leading-6 text-museum-muted">{subtitle}</p>
+                  <p className={subtitleClass}>{subtitle}</p>
                 </div>
 
                 <motion.button
                   type="button"
                   onClick={() => handleChoice("enter")}
-                  className="w-full border border-museum-neon/70 bg-museum-neon/15 px-4 py-4 font-mono text-[10px] uppercase leading-snug tracking-[0.1em] text-museum-neon transition-colors hover:bg-museum-neon/25 hover:shadow-neon-sm sm:text-[11px]"
+                  className={enterBtnClass}
                   animate={
                     reducedMotion
                       ? undefined
@@ -188,14 +212,16 @@ export function MotelExhibit({
                   {enterLabel}
                 </motion.button>
 
-                <div className="space-y-1.5 border border-museum-border/80 bg-museum-void/50 p-2">
-                  <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-museum-muted">
+                <div className={frictionWrapClass}>
+                  <p
+                    className={`font-mono uppercase tracking-[0.2em] text-museum-muted ${splitCompact ? "text-[8px]" : "text-[9px]"}`}
+                  >
                     If you try to cancel
                   </p>
                   {frictionSteps.map((step, index) => (
                     <motion.div
                       key={step}
-                      className="border border-museum-border px-2 py-1.5 font-mono text-[9px] uppercase tracking-[0.12em] text-museum-muted/90"
+                      className={frictionStepClass}
                       animate={
                         reducedMotion
                           ? undefined
@@ -208,7 +234,7 @@ export function MotelExhibit({
                   ))}
                 </div>
 
-                <div className="relative pb-6">
+                <div className={exitWrapClass}>
                   <motion.button
                     type="button"
                     disabled={!exitReady}
@@ -217,7 +243,7 @@ export function MotelExhibit({
                     onMouseLeave={() => setExitHover(false)}
                     onFocus={() => setExitHover(true)}
                     onBlur={() => setExitHover(false)}
-                    className="w-full border border-museum-border bg-museum-void/60 px-3 py-2.5 font-mono text-[9px] uppercase leading-relaxed tracking-[0.06em] text-museum-muted transition-colors enabled:hover:border-museum-warning/50 enabled:hover:text-museum-warning disabled:cursor-not-allowed disabled:opacity-40 sm:text-[10px]"
+                    className={exitBtnClass}
                   >
                     {exitLabel}
                   </motion.button>

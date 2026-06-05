@@ -1,14 +1,10 @@
 export type PatternStatus = "available" | "planned";
 
 export type SimulationType =
-  | "motel-dark-pattern"
   | "confirmshaming"
   | "fake-urgency"
-  | "forced-continuity"
-  | "notification-addiction"
-  | "privacy-zuckering"
-  | "algorithmic-manipulation"
-  | "information-bombardment";
+  | "motel-dark-pattern"
+  | "forced-continuity";
 
 export type DarkPattern = {
   id: string;

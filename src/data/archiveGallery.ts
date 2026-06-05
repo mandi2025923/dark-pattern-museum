@@ -16,7 +16,7 @@ const galleryLabels: Record<ArchiveGallerySlug, string> = {
   confirmshaming: "Confirm Shaming",
   "fake-urgency": "Fake Urgency",
   "motel-dark-pattern": "Motel Dark Pattern",
-  "forced-continuity": "Forced Continuity",
+  "forced-continuity": "Forced Renewal",
 };
 
 export type ArchiveGalleryRecord = DarkPattern & {
