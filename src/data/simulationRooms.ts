@@ -26,9 +26,9 @@ export const simulationRooms: SimulationRoom[] = [
     slug: "motel-dark-pattern",
     title: "Exit Maze",
     summary:
-      "A membership trap where entry is instant and cancellation is buried behind retention friction.",
+      "Sign-up is instant. Cancellation sends you through chat queues, surveys, and retention agents. Welcome to the roach motel.",
     patternSlug: "motel-dark-pattern",
-    safetyNote: "No membership is created. The cancellation queue is simulated UI only.",
+    safetyNote: "No membership was created. The cancellation queue is simulated UI — you were never trapped.",
   },
   {
     slug: "forced-continuity",

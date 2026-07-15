@@ -15,7 +15,7 @@ export type ArchiveGallerySlug = (typeof ARCHIVE_GALLERY_SLUGS)[number];
 const galleryLabels: Record<ArchiveGallerySlug, string> = {
   confirmshaming: "Confirm Shaming",
   "fake-urgency": "Fake Urgency",
-  "motel-dark-pattern": "Motel Dark Pattern",
+  "motel-dark-pattern": "Roach Motel (Hard to Cancel)",
   "forced-continuity": "Forced Renewal",
 };
 

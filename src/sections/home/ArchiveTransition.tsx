@@ -43,9 +43,9 @@ export function ArchiveTransition() {
           custom={2}
           className="mx-auto mt-6 max-w-2xl text-base leading-8 text-museum-muted"
         >
-          Enter four fixed dossiers — confirm shaming, fake urgency, motel-style
-          hidden consumption, and forced auto-renewal. Each room moves from
-          seduction to diagnosis.
+          Four dossiers. Four simulation rooms. Confirm shaming, fake urgency,
+          roach motel (hard to cancel), forced auto-renewal. Read the case file,
+          then walk into the room and feel it work.
         </motion.p>
         <motion.div variants={fadeUp} custom={3} className="mt-10">
           <CyberButton href={routes.archive}>Enter the Museum</CyberButton>

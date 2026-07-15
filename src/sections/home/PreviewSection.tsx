@@ -16,7 +16,7 @@ export function PreviewSection() {
       <SectionLabel
         index="01"
         title="Archive signals"
-        subtitle="Confirm shaming, fake urgency, motel hidden consumption, and forced auto-renewal — the museum’s four core dossiers."
+        subtitle="Confirm shaming, fake urgency, roach motel (hard to cancel), and forced auto-renewal — the museum's four core dossiers."
       />
 
       <motion.div

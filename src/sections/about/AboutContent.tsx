@@ -8,19 +8,23 @@ import { siteConfig } from "@/content/site";
 const themes = [
   {
     title: "Dark pattern theory",
-    desc: "Patterns and strategies in interface design that deliberately mislead user decisions.",
+    desc: "Interfaces that trick users into doing things they didn't mean to do. From Brignull's original 2010 taxonomy to Gray et al.'s 2024 CHI ontology of 64 types — a decade and a half of naming what platforms would rather keep invisible.",
+    ref: { label: "Gray et al. (2024) — CHI ontology", href: "https://doi.org/10.1145/3613904.3642436" },
   },
   {
     title: "Attention economy",
-    desc: "How platforms convert time-on-site into a commodity that can be sold.",
+    desc: "Your attention is the product. Platforms optimise for time-on-site because more scrolling means more ads served. Every notification, auto-play, and infinite feed is infrastructure for extracting attention at scale.",
+    ref: { label: "Tim Wu — The Attention Merchants (2017)", href: "https://www.penguinrandomhouse.com/books/319930/the-attention-merchants-by-tim-wu/" },
   },
   {
     title: "Persuasive technology",
-    desc: "How digital products systematically shape behaviour and emotion.",
+    desc: "Computers don't just respond to behaviour — they shape it. Fogg's (2003) framework showed how digital products systematically guide what users do, feel, and decide. The same tools that help you build habits can also exploit them.",
+    ref: { label: "Fogg (2003) — Persuasive Technology", href: "https://dl.acm.org/doi/10.5555/807008" },
   },
   {
     title: "Platform capitalism",
-    desc: "How large technology platforms control the infrastructure of digital life.",
+    desc: "A few companies own the infrastructure where digital life happens. They set the rules, control the data, and design the interfaces. When the platform itself is the product, user autonomy is a cost to be managed.",
+    ref: { label: "Srnicek (2017) — Platform Capitalism", href: "https://www.wiley.com/en-us/Platform+Capitalism-p-9781509504872" },
   },
 ];
 
@@ -57,6 +61,14 @@ export function AboutContent() {
             <p className="mt-2 text-sm leading-relaxed text-museum-muted">
               {theme.desc}
             </p>
+            <a
+              href={theme.ref.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-block font-mono text-[10px] uppercase tracking-[0.12em] text-museum-scan/80 transition-colors hover:text-museum-neon"
+            >
+              → {theme.ref.label}
+            </a>
           </motion.div>
         ))}
       </div>

@@ -34,14 +34,14 @@ export const darkPatterns: DarkPattern[] = [
   {
     id: "motel-dark-pattern",
     slug: "motel-dark-pattern",
-    title: "Motel Dark Pattern",
-    titleEn: "Motel Dark Pattern",
+    title: "Roach Motel (Hard to Cancel)",
+    titleEn: "Roach Motel (Hard to Cancel)",
     description:
-      "Easy to enter, nearly impossible to leave — subscriptions and memberships trap users behind layered exit friction.",
-    criticalTheme: "Exit is engineered to be harder than entry.",
+      "Sign-up takes one click. Cancellation takes a phone call, a chat queue, and three rounds of retention scripts.",
+    criticalTheme: "The exit door is bolted shut while the entrance is wide open.",
     realWorldInspiredExample:
-      "Services you can subscribe to in one click but must call, chat, or complete surveys to cancel.",
-    emotionalEffect: "Frustration, fatigue, resignation, learned helplessness.",
+      "Gym memberships you can buy online but only cancel in person. Streaming services with hidden termination pages.",
+    emotionalEffect: "Frustration, fatigue, the slow realisation you're being worn down on purpose.",
     simulationType: "motel-dark-pattern",
     status: "planned",
     threatLevel: 4,

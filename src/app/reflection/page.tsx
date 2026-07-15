@@ -4,7 +4,7 @@ import { ReflectionPrompt } from "@/components/reflection/ReflectionPrompt";
 
 export const metadata: Metadata = {
   title: "Reflection",
-  description: "Reflection prompts for the museum visitor.",
+  description: "Look back at what the four simulation rooms made you feel — and what that says about the interfaces you use every day.",
 };
 
 export default function ReflectionPage() {

@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "Dark Pattern Museum",
   tagline: "You were designed to stay — not to understand.",
   warning:
-    "This site is a critical design project. Some interactions simulate manipulative UX patterns found on real-world platforms, intended solely for academic reflection and educational use.",
+    "This site is a critical design project. Some interactions simulate manipulative UX patterns found on real platforms — for academic reflection, not actual deception.",
   university: "University of Birmingham",
   program: "MA Digital Media and Creative Industries",
   closingQuote: "You were never the customer. You were the product.",

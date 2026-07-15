@@ -70,9 +70,9 @@ export function HeroSection() {
             custom={3}
             className="mt-8 max-w-2xl text-lg leading-8 text-museum-text/80 md:text-xl"
           >
-            A critical media artwork staging four dossiers — confirm shaming,
-            fake urgency, motel-style hidden consumption, and forced auto-renewal
-            — so coercion can be seen before it is accepted.
+            Walk through four rooms. Each one works the way real platforms do.
+            Shame Gate, Pressure Timer, Exit Maze, Silent Renewal.
+            No data leaves your browser. The discomfort is the point.
           </motion.p>
 
           <motion.div
@@ -98,14 +98,14 @@ export function HeroSection() {
               Visitor status
             </p>
             <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-museum-muted">
-              observed locally
+              nothing leaves your browser
             </span>
           </div>
           <div className="grid gap-3 py-5">
             {[
               ["Confirm shaming", "dossier_01"],
               ["Fake urgency", "dossier_02"],
-              ["Motel exit trap", "dossier_03"],
+              ["Roach Motel (Hard to Cancel)", "dossier_03"],
               ["Forced renewal", "dossier_04"],
             ].map(([label, value]) => (
               <div

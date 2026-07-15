@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "skills": {
+    "agent-reach": {
+      "source": "Panniantong/Agent-Reach",
+      "sourceType": "github",
+      "skillPath": "agent_reach/skill/SKILL.md",
+      "computedHash": "5160fd1437365a5659a12f11f9870a9c67344b3e5d9029feac6604e80417e202"
+    },
+    "browser-use": {
+      "source": "browser-use/browser-use",
+      "sourceType": "github",
+      "skillPath": "skills/browser-use/SKILL.md",
+      "computedHash": "c2f6bb1deba21399380e80e9eab963836c50ae77ad2dea21bd5ea10e66da707e"
+    },
+    "cloud": {
+      "source": "browser-use/browser-use",
+      "sourceType": "github",
+      "skillPath": "skills/cloud/SKILL.md",
+      "computedHash": "b8d447a793468bb3d832239cf99872b6d21538f388ecafaedf9ea1aff78a9aca"
+    },
+    "huashu-design": {
+      "source": "alchaincyf/huashu-design",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "6fcdc44b8789a3887a69b537e7f2d02f94f603db5660c5b7e5697a472e46d270"
+    },
+    "huashu-nuwa": {
+      "source": "alchaincyf/nuwa-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "779b7f08fb9d27bc786b76aaa81dba022d63c23f55634994c05f90a5e9550663"
+    },
+    "humanizer-zh": {
+      "source": "op7418/Humanizer-zh",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "7bd195e3bcdcc24f078dfd4e3b3e37e8ac321c36f410a41241fc4175eab1825a"
+    },
+    "kami": {
+      "source": "tw93/Kami",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "b6d905c1b687b4b423b01631fc0ae0227baf73ada0b62847b47f7799a02be644"
+    },
+    "notebooklm": {
+      "source": "teng-lin/notebooklm-py",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "f64409a8dbd2d1e394b5027b02756e6726562a6b947cd5b67f7a93f7dd02ee38"
+    },
+    "open-source": {
+      "source": "browser-use/browser-use",
+      "sourceType": "github",
+      "skillPath": "skills/open-source/SKILL.md",
+      "computedHash": "633e852b42541167618777abe3e680499131ee59b13b46125e6ced74e04dba99"
+    },
+    "remote-browser": {
+      "source": "browser-use/browser-use",
+      "sourceType": "github",
+      "skillPath": "skills/remote-browser/SKILL.md",
+      "computedHash": "8cf89823c7cafe4d52e0c5ed4cce97ff6956d6367a19341b0c6f1c1ef025932e"
+    },
+    "x402": {
+      "source": "browser-use/browser-use",
+      "sourceType": "github",
+      "skillPath": "skills/x402/SKILL.md",
+      "computedHash": "c3e54f71161ba230d6fbeee1a633136fd7b6791499f3c281dc9917479f6d315a"
+    }
+  }
+}

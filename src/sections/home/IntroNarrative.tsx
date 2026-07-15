@@ -10,12 +10,12 @@ const narrativeBlocks = [
     text: "Some interfaces rewrite the decline button into an insult and the clock into a weapon. Confirm shaming and fake urgency pressure consent through guilt and manufactured panic — not through clear choice.",
   },
   {
-    label: "Motel & renewal",
-    text: "Others make entry effortless and exit exhausting: the motel dark pattern hides cancellation behind surveys, chat queues, and friction. Forced auto-renewal buries the trial’s end date until forgetting becomes revenue.",
+    label: "Roach Motel & renewal",
+    text: "Sign-up is a single click. Cancellation is a phone call, a chat queue, a retention agent who won't take no for an answer. Forced auto-renewal counts on you forgetting — and the interface helps you forget.",
   },
   {
     label: "Reflection",
-    text: "Four dossiers in the archive stage these mechanisms side by side. Nothing here tracks you; the discomfort is simulated so each pattern can be named, compared, and questioned.",
+    text: "You just scrolled past four mechanisms that are probably running on a tab you have open right now. The difference is: here, you can stop. Look again. Ask what the interface wanted you to do — and whether you wanted to do it.",
   },
 ];
 
@@ -34,7 +34,7 @@ export function IntroNarrative() {
           <SectionLabel
             index="00"
             title="The interface is not neutral"
-            subtitle="Four exhibits: confirm shaming, fake urgency, motel hidden consumption, and forced auto-renewal."
+            subtitle="Four exhibits: confirm shaming, fake urgency, roach motel (hard to cancel), and forced auto-renewal."
           />
         </motion.div>
 

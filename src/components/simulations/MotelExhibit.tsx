@@ -19,16 +19,16 @@ export const MOTEL_EXHIBIT_COPY = {
 } as const;
 
 export const MOTEL_EXHIBIT_EXPLANATION = {
-  sectionLabel: "Exhibit explanation · Motel dark pattern",
+  sectionLabel: "Exhibit explanation · Roach Motel (Hard to Cancel)",
   enterOpener:
     "You entered immediately. The interface treated signup like a door that only opens inward — no friction on the way in.",
   exitOpener:
     "You tried to leave. The same product suddenly required proof, patience, and persistence just to find the exit.",
   bodyLead:
-    " (the “roach motel”) makes entry effortless and exit exhausting. Subscribe flows stay above the fold; cancellation hides behind menus, chat bots, and ",
-  bodyFollowUpHighlight: "deliberate friction",
+    " (the 'roach motel' — easy to check in, hard to check out) makes sign-up a single tap and cancellation a maze. Subscribe buttons glow above the fold; the cancel link hides behind menus, chat bots, and ",
+  bodyFollowUpHighlight: "layers of friction",
   bodyFollowUpAfter:
-    " so resignation feels easier than escape.",
+    " designed to wear you down until giving up feels easier than fighting.",
   museumNote:
     "Museum note: No membership was created. No call was placed. The retention queue was simulated UI only.",
 } as const;

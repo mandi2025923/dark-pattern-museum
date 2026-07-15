@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     template: "%s | Dark Pattern Museum",
   },
   description:
-    "A speculative digital museum exposing manipulative UX patterns in modern platforms.",
+    "Ever clicked a button and immediately regretted it? Walk through four rooms that recreate the tricks platforms use to steer you — safely, locally, with nothing collected.",
 };
 
 export default function RootLayout({
