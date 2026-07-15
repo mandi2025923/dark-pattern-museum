@@ -17,24 +17,24 @@ export function AboutHero() {
           custom={0}
           className="font-mono text-xs tracking-[0.4em] text-museum-scan"
         >
-          PROJECT MANIFESTO
+          WHY THIS EXISTS
         </motion.p>
         <motion.h1
           variants={fadeUp}
           custom={1}
-          className="mt-4 font-display text-4xl font-bold uppercase tracking-wide text-museum-text md:text-5xl"
+          className="mt-4 max-w-3xl font-display text-3xl font-bold uppercase leading-tight tracking-wide text-museum-text md:text-4xl"
         >
-          About this project
+          Every interface you use is designed to steer you. This museum exists to make that steering visible.
         </motion.h1>
         <motion.p
           variants={fadeUp}
           custom={2}
-          className="mt-6 max-w-2xl text-lg leading-relaxed text-museum-muted"
+          className="mt-6 max-w-2xl text-base leading-relaxed text-museum-muted"
         >
           {siteConfig.name} is a postgraduate final major project for the{" "}
-          {siteConfig.program} at the {siteConfig.university} — a speculative
-          digital museum that exposes hidden manipulative UX patterns across modern
-          platforms, apps, and algorithmic systems through interaction.
+          {siteConfig.program} at the {siteConfig.university}. It does not
+          solve dark patterns. It restages them so you can see how they work — and
+          ask why they are everywhere.
         </motion.p>
       </motion.div>
     </section>

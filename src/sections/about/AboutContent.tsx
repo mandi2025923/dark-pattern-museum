@@ -81,6 +81,71 @@ export function AboutContent() {
         </ul>
       </div>
 
+      <div className="mt-20">
+        <SectionLabel
+          index="04"
+          title="Further reading"
+          subtitle="Key regulatory and research resources on dark patterns"
+        />
+        <ul className="space-y-4">
+          {[
+            {
+              label: "FTC — Bringing Dark Patterns to Light (2022)",
+              href: "https://www.ftc.gov/reports/bringing-dark-patterns-light",
+              desc: "The US Federal Trade Commission's landmark report on dark patterns in digital commerce, outlining enforcement priorities under Section 5 of the FTC Act.",
+            },
+            {
+              label: "FTC Act Section 5 — Unfair or Deceptive Acts or Practices",
+              href: "https://www.ftc.gov/legal-library/browse/statutes/federal-trade-commission-act",
+              desc: "The primary US legal instrument used to regulate deceptive interface design, including dark patterns that cause consumer harm.",
+            },
+            {
+              label: "EU Digital Services Act — Article 25",
+              href: "https://eur-lex.europa.eu/eli/reg/2022/2065/oj",
+              desc: "Prohibits online platform interfaces that deceive or manipulate users, including designs that impair informed decision-making.",
+            },
+            {
+              label: "EU General Data Protection Regulation (GDPR)",
+              href: "https://gdpr.eu/",
+              desc: "EU regulation governing data protection and privacy, directly relevant to dark patterns in cookie consent and data-sharing interfaces.",
+            },
+            {
+              label: "Gray et al. (2024) — An Ontology of Dark Patterns (CHI 2024)",
+              href: "https://doi.org/10.1145/3613904.3642436",
+              desc: "The foundational academic taxonomy unifying 64 dark pattern types across prior classification systems.",
+            },
+            {
+              label: "Brignull — Deceptive Design (Dark Patterns)",
+              href: "https://www.deceptive.design/",
+              desc: "Harry Brignull's original taxonomy of deceptive design patterns, continuously updated with real-world examples since 2010.",
+            },
+          ].map((link, i) => (
+            <motion.li
+              key={link.href}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeUp}
+              custom={i}
+            >
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block border border-museum-border bg-museum-panel/40 p-4 transition-colors hover:border-museum-neon/60"
+              >
+                <span className="font-mono text-xs uppercase tracking-[0.15em] text-museum-neon">
+                  {link.label}
+                </span>
+                <span className="mt-2 block text-sm leading-relaxed text-museum-muted">
+                  {link.desc}
+                </span>
+              </a>
+            </motion.li>
+          ))}
+        </ul>
+      </div>
+
       <motion.blockquote
         className="mt-20 border-l-2 border-museum-neon pl-6"
         initial={{ opacity: 0, x: -20 }}
