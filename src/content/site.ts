@@ -10,6 +10,11 @@ export const siteConfig = {
     "Critical Design Prototype · No User Data Collection · For Academic & Educational Purposes Only",
 } as const;
 
+export const glossary = {
+  roachMotel:
+    "Roach Motel (Hard to Cancel): A dark pattern where subscriptions are easy to join but difficult to cancel. Term coined by UX researcher Harry Brignull (2010).",
+} as const;
+
 export const navLinks = [
   { href: "/", label: "Home" },
   { href: "/archive", label: "Archive" },

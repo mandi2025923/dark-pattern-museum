@@ -4,6 +4,8 @@ import { useEffect, useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { fadeUp } from "@/animations/variants";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { Tooltip } from "@/components/ui/Tooltip";
+import { glossary } from "@/content/site";
 import type { SimulationModalLayout } from "@/components/simulations/ConfirmShamingModal";
 
 export const MOTEL_EXHIBIT_COPY = {
@@ -318,7 +320,7 @@ function MotelExplanation({ choice, embedded, footer = false }: MotelExplanation
       exit={{ opacity: 0, y: 12 }}
     >
       <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-museum-scan">
-        {sectionLabel}
+        <Tooltip content={glossary.roachMotel}>{sectionLabel}</Tooltip>
       </p>
 
       <p
@@ -339,7 +341,9 @@ function MotelExplanation({ choice, embedded, footer = false }: MotelExplanation
         }
       >
         <p>
-          <strong className="text-museum-text">The motel dark pattern</strong>
+          <strong className="text-museum-text">
+            <Tooltip content={glossary.roachMotel}>The roach motel pattern</Tooltip>
+          </strong>
           {bodyLead}
           <span className="text-museum-neon">{bodyFollowUpHighlight}</span>
           {bodyFollowUpAfter}

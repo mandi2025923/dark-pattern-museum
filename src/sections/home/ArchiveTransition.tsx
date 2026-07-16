@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import { CyberButton } from "@/components/ui/CyberButton";
+import { Tooltip } from "@/components/ui/Tooltip";
+import { glossary } from "@/content/site";
 import { routes } from "@/lib/routes";
 import { fadeUp, staggerContainer } from "@/animations/variants";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
@@ -43,9 +45,10 @@ export function ArchiveTransition() {
           custom={2}
           className="mx-auto mt-6 max-w-2xl text-base leading-8 text-museum-muted"
         >
-          Four dossiers. Four simulation rooms. Confirm shaming, fake urgency,
-          roach motel (hard to cancel), forced auto-renewal. Read the case file,
-          then walk into the room and feel it work.
+          Four dossiers. Four simulation rooms. Confirm shaming, fake urgency,{" "}
+          <Tooltip content={glossary.roachMotel}>roach motel (hard to cancel)</Tooltip>
+          , forced auto-renewal. Read the case file, then walk into the room and
+          feel it work.
         </motion.p>
         <motion.div variants={fadeUp} custom={3} className="mt-10">
           <CyberButton href={routes.archive}>Enter the Museum</CyberButton>

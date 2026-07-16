@@ -5,7 +5,8 @@ import { AtmosphericField } from "@/components/effects/AtmosphericField";
 import { FloatingInterfaceFragments } from "@/components/effects/FloatingInterfaceFragments";
 import { CyberButton } from "@/components/ui/CyberButton";
 import { fadeUp, staggerContainer } from "@/animations/variants";
-import { siteConfig } from "@/content/site";
+import { siteConfig, glossary } from "@/content/site";
+import { Tooltip } from "@/components/ui/Tooltip";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { routes } from "@/lib/routes";
 
@@ -102,18 +103,22 @@ export function HeroSection() {
             </span>
           </div>
           <div className="grid gap-3 py-5">
-            {[
-              ["Confirm shaming", "dossier_01"],
-              ["Fake urgency", "dossier_02"],
-              ["Roach Motel (Hard to Cancel)", "dossier_03"],
-              ["Forced renewal", "dossier_04"],
-            ].map(([label, value]) => (
+            {([
+              ["Confirm shaming", "dossier_01", false],
+              ["Fake urgency", "dossier_02", false],
+              ["Roach Motel (Hard to Cancel)", "dossier_03", true],
+              ["Forced renewal", "dossier_04", false],
+            ] as const).map(([label, value, hasTooltip]) => (
               <div
                 key={label}
                 className="flex items-center justify-between border border-museum-border/70 bg-museum-void/50 px-3 py-3 font-mono text-xs"
               >
                 <span className="uppercase tracking-[0.18em] text-museum-muted">
-                  {label}
+                  {hasTooltip ? (
+                    <Tooltip content={glossary.roachMotel}>{label}</Tooltip>
+                  ) : (
+                    label
+                  )}
                 </span>
                 <span className="uppercase tracking-[0.18em] text-museum-scan">
                   {value}

@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import { ThreatMeter } from "@/components/ui/ThreatMeter";
+import { Tooltip } from "@/components/ui/Tooltip";
+import { glossary } from "@/content/site";
 import type { ArchiveGalleryRecord } from "@/data/archiveGallery";
 
 type ArchiveRecordCardProps = {
@@ -46,11 +48,19 @@ export function ArchiveRecordCard({ pattern, onOpen }: ArchiveRecordCardProps) {
                 dossier_{String(pattern.galleryIndex).padStart(2, "0")}
               </span>
               <span className="border border-museum-neon/35 bg-museum-neon/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.22em] text-museum-neon">
-                {pattern.galleryLabel}
+                {pattern.slug === "motel-dark-pattern" ? (
+                  <Tooltip content={glossary.roachMotel}>{pattern.galleryLabel}</Tooltip>
+                ) : (
+                  pattern.galleryLabel
+                )}
               </span>
             </div>
             <h3 className="mt-3 font-display text-2xl uppercase leading-tight tracking-wider text-museum-text transition-colors group-hover:text-museum-neon md:text-3xl">
-              {pattern.titleEn}
+              {pattern.slug === "motel-dark-pattern" ? (
+                <Tooltip content={glossary.roachMotel}>{pattern.titleEn}</Tooltip>
+              ) : (
+                pattern.titleEn
+              )}
             </h3>
             <p className="mt-2 max-w-xl text-sm leading-6 text-museum-muted">
               {pattern.description}

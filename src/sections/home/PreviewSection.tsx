@@ -4,6 +4,8 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/animations/variants";
 import { SectionLabel } from "@/components/ui/SectionLabel";
+import { Tooltip } from "@/components/ui/Tooltip";
+import { glossary } from "@/content/site";
 import { darkPatternCategories } from "@/data/darkPatterns";
 import { archiveRoute, routes } from "@/lib/routes";
 
@@ -38,7 +40,11 @@ export function PreviewSection() {
               {item.titleEn}
             </p>
             <h3 className="mt-4 font-display text-xl uppercase leading-tight tracking-wider text-museum-text">
-              {item.title}
+              {item.slug === "motel-dark-pattern" ? (
+                <Tooltip content={glossary.roachMotel}>{item.title}</Tooltip>
+              ) : (
+                item.title
+              )}
             </h3>
             <p className="mt-4 text-sm leading-6 text-museum-muted">
               {item.description}

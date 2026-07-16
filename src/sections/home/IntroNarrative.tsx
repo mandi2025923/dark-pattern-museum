@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/animations/variants";
 import { SectionLabel } from "@/components/ui/SectionLabel";
+import { Tooltip } from "@/components/ui/Tooltip";
+import { glossary } from "@/content/site";
 
 const narrativeBlocks = [
   {
@@ -48,7 +50,11 @@ export function IntroNarrative() {
             >
               <div className="flex items-center justify-between gap-4 border-b border-museum-border pb-3">
                 <p className="font-mono text-xs uppercase tracking-[0.24em] text-museum-neon">
-                  {block.label}
+                  {block.label === "Roach Motel & renewal" ? (
+                    <Tooltip content={glossary.roachMotel}>{block.label}</Tooltip>
+                  ) : (
+                    block.label
+                  )}
                 </p>
                 <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-museum-muted">
                   signal_{String(index + 1).padStart(2, "0")}
