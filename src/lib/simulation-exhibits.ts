@@ -4,6 +4,8 @@ import type { SimulationType } from "@/types/museum";
 export const DEDICATED_SIMULATION_ROOMS = [
   "confirmshaming",
   "fake-urgency",
+  "motel-dark-pattern",
+  "forced-continuity",
 ] as const satisfies readonly SimulationType[];
 
 export type DedicatedSimulationRoom = (typeof DEDICATED_SIMULATION_ROOMS)[number];

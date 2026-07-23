@@ -36,7 +36,7 @@ export function ArchiveGallery({ records }: ArchiveGalleryProps) {
           <SectionLabel
             index="ARCHIVE"
             title="Vertical dark gallery"
-            subtitle="Four fixed dossiers — confirm shaming, fake urgency, motel dark pattern, forced auto-renewal. Hover for hall lighting; open a card for the split trap preview."
+            subtitle="Four fixed dossiers — confirm shaming, fake urgency, roach motel (hard to cancel), forced auto-renewal. Hover for hall lighting; open a card for the split trap preview."
           />
           <p id="archive-gallery-heading" className="sr-only">
             Dark pattern archive gallery
